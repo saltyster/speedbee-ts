@@ -97,7 +97,7 @@ SpeeDBeeを環境で利用するためには、下記の手順でインストー
 
 1. 評価版[リリースファイル](https://github.com/saltyster/speedbee-ts/releases)をダウンロード
    ```bash
-   $ curl -O https://github.com/saltyster/speedbee-ts/releases/download/v61.0.0/speedbee-ts-trial-v61.0-linux-x86_64.tar.gz
+   $ curl https://github.com/saltyster/speedbee-ts/releases/download/v61.0.0/speedbee-ts-trial-v61.0-linux-x86_64.tar.gz
    ```
 2. 評価版リリースファイルをインストール
    ```bash
