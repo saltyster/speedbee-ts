@@ -19,6 +19,7 @@ DBはデータ登録可能なカラム（列）を複数保持し、カラムへ
 - [Getting Started](#Getting-Started)
 - [Running the Samples](#Running-the-Samples)
 - [Documentation](#documentation)
+- [Install](#Install)
 - [License](#license)
 - [Contacts](#Contacts)
 
@@ -42,21 +43,6 @@ DBはデータ登録可能なカラム（列）を複数保持し、カラムへ
 ```bash
 sudo apt install gcc make
 ```
-
-### SpeeDBeeのインストール
-
-SpeeDBeeを利用するために、下記の手順をお試しください。
-
-1. 評価版[リリースファイル](https://github.com/saltyster/speedbee-ts/releases)をダウンロード
-   ```bash
-   $ curl https://github.com/saltyster/speedbee-ts/releases/download/v61.0/speedbee-ts-trial-v61.0-linux-x86_64.tar.gz
-   ```
-2. 評価版リリースファイルをインストール
-   ```bash
-   $ cd /usr/local
-   $ sudo tar xzvf ${path_to_tar.gz}/speedbee62-linux-x86_64.tar.gz
-   $ sudo ldconfig
-   ```
 
 ### サンプルプログラムのビルド＆実行
 
@@ -101,7 +87,22 @@ SpeeDBeeの機能を紹介するサンプル。
 
 ## [Documentation](#documentation)
 
-[doc](https://github.com/saltyster/testrepo/blob/v0.1/doc/SDTS_API.pdf)のドキュメントを参照してください。
+ドキュメントは現在準備中です。
+
+## [Install](#Install)
+
+SpeeDBeeを環境で利用するためには、下記の手順でインストールしてお試しください。
+
+1. 評価版[リリースファイル](https://github.com/saltyster/speedbee-ts/releases)をダウンロード
+   ```bash
+   $ curl https://github.com/saltyster/speedbee-ts/releases/download/v61.0/speedbee-ts-trial-v61.0-linux-x86_64.tar.gz
+   ```
+2. 評価版リリースファイルをインストール
+   ```bash
+   $ cd /usr/local
+   $ sudo tar xzvf ${path_to_tar.gz}/speedbee62-linux-x86_64.tar.gz
+   $ sudo ldconfig
+   ```
 
 ## [License](#License)
 
