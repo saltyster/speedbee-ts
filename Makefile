@@ -1,7 +1,7 @@
 # Makefile
 # SPeeDBee
-INCLUDE=-I./include
-LDFLAGS=-L./lib
+INCLUDE=-I/usr/local/include
+LDFLAGS=-L/usr/local/lib
 
 CFLAGS=-O2 -Wall $(INCLUDE) $(HEADER) 
 

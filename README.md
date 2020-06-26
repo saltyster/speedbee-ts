@@ -1,6 +1,6 @@
 # SpeeDBee
 
-> 時系列DBのSpeeDBeeは、登録データのリアルタイム分析を用いてウィンドウ単位でのデータ分析および判定によるイベント通知を行えます。
+> 時系列DBのSpeeDBeeは、登録データのリアルタイム分析を用いてウィンドウ単位でのデータ分析およびイベント通知を行えます。
 
 > Keywords : 組込みDB, 時系列DB, リアルタイム分析, Time Series DBMS
 <!-- 時系列DB, 時系列データベース, 組込みDB, 組込みデータベース, リアルタイム分析, SpeeDBee, Saltyster, IoT分析, Database local storage,  -->
@@ -8,7 +8,7 @@
 SpeeDBeeにおける時系列DBは、インメモリDB機能を利用して高速にデータを時間に紐づけて登録します。<br>
 DBはデータ登録可能なカラム（列）を複数保持し、カラムへのデータ登録は各カラム単位で、時間、値（もしくは値の配列）を設定し行います。<br>
 登録されたデータは集約検索を利用して、同一タイムスタンプ上に集約して取得する事が可能です。
-登録データは、リアルタイム分析機能を用い、ウィンドウ単位でのデータ分析および判定によるイベント通知を送ることができます。<br>
+登録データは、リアルタイム分析機能を用い、ウィンドウ単位でのデータ分析およびイベント通知を送ることができます。<br>
 
 登録データは、指定によりファイル保存（永続化）することができます。また、永続化データはインメモリDB機能と同じ集約検索APIを用いて検索することができます。<br>
 
@@ -97,7 +97,7 @@ SpeeDBeeを環境で利用するためには、下記の手順でインストー
 
 1. 評価版[リリースファイル](https://github.com/saltyster/speedbee-ts/releases)をダウンロード
    ```bash
-   $ curl https://github.com/saltyster/speedbee-ts/releases/download/v61.0.0/speedbee-ts-trial-v61.0-linux-x86_64.tar.gz
+   $ curl https://github.com/saltyster/speedbee-ts/releases/download/v61.0/speedbee-ts-trial-v61.0-linux-x86_64.tar.gz
    ```
 2. 評価版リリースファイルをインストール
    ```bash
@@ -115,7 +115,9 @@ SamplesプログラムのラインセンスはMITになります。
 
 * **株式会社ソルティスター** - [SALTYSTER](http://www.saltyster.com/)
 
-SpeeDBeeについてのお問い合わせは[こちら](http://www.saltyster.com/contact/)からお願いいたします。
+SpeeDBeeについてのお問い合わせは、以下のメールアドレス、またはIssueにてお問い合わせください。
+SpeeDBeeに関するお問い合わせメールアドレス : speedbee@saltyster.com
+
 
 ## [Acknowledgments](#Acknowledgments)
 
