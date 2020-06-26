@@ -63,13 +63,13 @@ static void db_finish(sdtsdb_t db);
 static void db_create_column(sdtsdb_t db, CID_PROCESSOR *cids, const int proc);
 static void db_aggregate_fixed_cycle(sdtsdb_t db, CID_PROCESSOR *cids, const int proc);
 static int callback_func(sdntime_t ts, void *da, int dc, sdstat_t* st, int ret, void *user_data);
-static void db_insert(sdtsdb_t db, CID_PROCESSOR *cids, const int proc, CPU_TIME register_cpu[REGISTER_TIME][proc]);
+static void db_insert(sdtsdb_t db, CID_PROCESSOR *cid, sdntime_t ts, const int proc, CPU_TIME *register_cpu);
 static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc);
 // CPU operation
 static int get_count_logical_processor(void);
 static int get_current_cpu_time(CPU time[]);
-static void calc_cpu_time(CPU prev[], CPU curr[], int reg_curr_time, int register_time, int procnum, CPU_TIME register_cpu[register_time][procnum]);
-static void cpu_start_usage_collecters(const int proc, CPU_TIME register_cpu[REGISTER_TIME][proc]);
+static void calc_cpu_time(CPU prev, CPU curr, int procnum, CPU_TIME *register_cpu);
+static void cpu_start_usage_collecters(sdtsdb_t db, CID_PROCESSOR *cids, const int proc);
 
 int main(int ac, char *av[]) {
 	sdtsdb_t db = db_init();
@@ -80,11 +80,8 @@ int main(int ac, char *av[]) {
 	db_aggregate_fixed_cycle(db, cids, processor);
 
 	// CPU使用率の計測と取得.
-	CPU_TIME register_cpu[REGISTER_TIME][processor];	/* 登録用データ格納 1sec:CPU~CPUxx, REGISTER_TIME sec. */
-	cpu_start_usage_collecters(processor, register_cpu);
+	cpu_start_usage_collecters(db, cids, processor);
 
-	db_insert(db, cids, processor, register_cpu);
-	
 	db_get_cpu_time(db, cids, processor);
 
 	db_finish(db);
@@ -149,23 +146,23 @@ static void db_create_column(sdtsdb_t db, CID_PROCESSOR *cids, const int proc){
 		}
 		// printf("-- success created sdts_create_col cid max [%d] --\n", cids[i].max);
 		
-		snprintf(cidbuff, 256, "%d_min", i);
-		if ((cids[i].min = sdts_create_col(db, (sdid_t)&cidbuff, (char *)COL_SUB_PAR)) < 0) {
-			printf("error sdts_create_col min [%d]\n", sd_get_err());
-			(void)sdts_close_db(db);
-			sd_end();
-			exit(EXIT_FAILURE);
-		}
-		// printf("-- success created sdts_create_col cid min [%d] --\n", cids[i].min);
+		// snprintf(cidbuff, 256, "%d_min", i);
+		// if ((cids[i].min = sdts_create_col(db, (sdid_t)&cidbuff, (char *)COL_SUB_PAR)) < 0) {
+		// 	printf("error sdts_create_col min [%d]\n", sd_get_err());
+		// 	(void)sdts_close_db(db);
+		// 	sd_end();
+		// 	exit(EXIT_FAILURE);
+		// }
+		// // printf("-- success created sdts_create_col cid min [%d] --\n", cids[i].min);
 		
-		snprintf(cidbuff, 256, "%d_ave", i);
-		if ((cids[i].ave = sdts_create_col(db, (sdid_t)&cidbuff, (char *)COL_SUB_PAR)) < 0) {
-			printf("error sdts_create_col ave [%d]\n", sd_get_err());
-			(void)sdts_close_db(db);
-			sd_end();
-			exit(EXIT_FAILURE);
-		}
-		// printf("-- success created sdts_create_col cid ave [%d] --\n", cids[i].ave);
+		// snprintf(cidbuff, 256, "%d_ave", i);
+		// if ((cids[i].ave = sdts_create_col(db, (sdid_t)&cidbuff, (char *)COL_SUB_PAR)) < 0) {
+		// 	printf("error sdts_create_col ave [%d]\n", sd_get_err());
+		// 	(void)sdts_close_db(db);
+		// 	sd_end();
+		// 	exit(EXIT_FAILURE);
+		// }
+		// // printf("-- success created sdts_create_col cid ave [%d] --\n", cids[i].ave);
 	}
 	printf("-- success sdts_create_col --\n");
 }
@@ -206,63 +203,52 @@ static int callback_func(sdntime_t ts, void *da, int dc, sdstat_t* st, int ret, 
 			sd_end();
 			exit(EXIT_FAILURE);
 		}
-		if (sdts_insert(ana->db, ana->min, st->etime, (char *) &st->min, 1) != 1) {
-			printf("error sdts_insert [%d] : sdts_insert error in sdts_set_win callback: name[%s] \n", sd_get_err(), ana->name);
-			(void)sdts_close_db(ana->db);
-			sd_end();
-			exit(EXIT_FAILURE);
-		}
-		if (sdts_insert(ana->db, ana->ave, st->etime, (char *) &st->mean, 1) != 1) {
-			printf("error sdts_insert [%d] : sdts_insert error in sdts_set_win callback: name[%s] \n", sd_get_err(), ana->name);
-			(void)sdts_close_db(ana->db);
-			sd_end();
-			exit(EXIT_FAILURE);
-		}
+		// if (sdts_insert(ana->db, ana->min, st->etime, (char *) &st->min, 1) != 1) {
+		// 	printf("error sdts_insert [%d] : sdts_insert error in sdts_set_win callback: name[%s] \n", sd_get_err(), ana->name);
+		// 	(void)sdts_close_db(ana->db);
+		// 	sd_end();
+		// 	exit(EXIT_FAILURE);
+		// }
+		// if (sdts_insert(ana->db, ana->ave, st->etime, (char *) &st->mean, 1) != 1) {
+		// 	printf("error sdts_insert [%d] : sdts_insert error in sdts_set_win callback: name[%s] \n", sd_get_err(), ana->name);
+		// 	(void)sdts_close_db(ana->db);
+		// 	sd_end();
+		// 	exit(EXIT_FAILURE);
+		// }
 	} else { 
 		printf("\n");
 	}
 
 	return 0;
 }
-static void db_insert(sdtsdb_t db, CID_PROCESSOR *cids, const int proc, CPU_TIME register_cpu[REGISTER_TIME][proc]) {
+static void db_insert(sdtsdb_t db, CID_PROCESSOR *cid, sdntime_t ts, const int proc, CPU_TIME *register_cpu) {
 	// CPU使用率をDBに登録.
 	// タイムスタンプ設定 
 	// 0を指定した場合システム時間が初期タイムスタンプとなる。
-	sdntime_t ts = 1000000000;
-	int i;
-	for (i = 0; i < REGISTER_TIME; i++) {
-		for (int j = 0; j < proc; j++) {
-			// 登録
-			// printf("INSERT Check [%d] %s: %.1f%%\n", i, register_cpu[i][j].name, register_cpu[i][j].act);
-			if (sdts_insert(db, cids[j].act, ts, (char *) &register_cpu[i][j].act, 1) != 1) {
-				printf("error sdts_insert [%d]\n", sd_get_err());
-				(void)sdts_close_db(db);
-				sd_end();
-				exit(EXIT_FAILURE);
-			}
-		}
-		// 初回以降、登録時のタイムスタンプが 0 である場合、
-		// または、指定されたサンプリングレートでの間隔で
-		// 初回からの連続したタイムスタンプある場合は 
-		// 連続性があるデータとして認識される。
-		ts = 0;
+	// 登録
+	// printf("INSERT Check [%s]: %.1f%%\n", register_cpu->name, register_cpu->act);
+	if (sdts_insert(db, cid->act, ts, (char *) &register_cpu->act, 1) != 1) {
+		printf("error sdts_insert [%d]\n", sd_get_err());
+		(void)sdts_close_db(db);
+		sd_end();
+		exit(EXIT_FAILURE);
 	}
-	printf("-- success sdts_insert [%d] sec. input data count [%d]. --\n", i, REGISTER_TIME * proc);
 }
 static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc) {
 	// データの取得
 	sdtscur_t cur;
-	const int ccnt = proc * 4;
+	const int col_type_num = 2;
+	const int ccnt = proc * col_type_num;
 	int i = 0, j = 0, ret = 0;
 	sdntime_t ts = 1000000000, st = 1000000000, iv = 1000000000;
 	sdntime_t et = st * REGISTER_TIME;
-	sdtscid_t all_cids[proc * 4];
-	sdtscurval_t val[proc * 4];
+	sdtscid_t all_cids[proc * col_type_num];
+	sdtscurval_t val[proc * col_type_num];
 	for (i = 0; i < proc; i++) {
 		all_cids[j] = cids[i].act;
 		all_cids[++j] = cids[i].max;
-		all_cids[++j] = cids[i].min;
-		all_cids[++j] = cids[i].ave;
+		// all_cids[++j] = cids[i].min;
+		// all_cids[++j] = cids[i].ave;
 		// printf("all_cids act:%d, max:%d, min:%d, ave:%d\n", all_cids[j-3], all_cids[j-2], all_cids[j-1], all_cids[j]);
 		// printf("cids     act:%d, max:%d, min:%d, ave:%d\n", cids[i].act, cids[i].max, cids[i].min, cids[i].ave);
 		++j;
@@ -274,9 +260,9 @@ static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc) {
 	}
 	printf("-- success sdts_open_cur st[%lld] et[%lld] iv[%lld]--\n", st, et, iv);
 
-	printf("\n|----|-----------------|-----------|-------|-------|-------|-------|\n");
-	printf("| No | ts              | processor |   acr |   max |   min |   ave |\n");
-	printf("|----|-----------------|-----------|-------|-------|-------|-------|");
+	printf("\n|----|-----------------|-----------|-------|-------|\n");
+	printf("| No | ts              | processor |   acr |   max |\n");
+	printf("|----|-----------------|-----------|-------|-------|");
 	i = 0;
 	while ((ret = sdts_fetch_cur(cur)) == SD_FETCH_OK) {
 		if (sdts_get_cur_aggr(cur, &ts, val, ccnt) < 0) {
@@ -284,11 +270,9 @@ static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc) {
 			sdts_close_cur(cur);
 			exit(EXIT_FAILURE);
 		}
-		// printf("|%04d| ts[%lld] |", i + 1, ts);
 		for (j = 0; j < ccnt; j++) {
-			// printf("c[%d]:", j + 1);
-			if ((j == 0) || ((j > 3) && ((j % 4) == 0))) 
-				printf("\n|%04d| ts[%11lld] |%7s[%d] |", i + 1, ts, (j < 4) ? "total" : "", (j < 4) ? 0 : j / 4 );
+			if ((j == 0) || ((j > (col_type_num-1)) && ((j % col_type_num) == 0)))  // 表の改行位置
+				printf("\n|%04d| ts[%11lld] |%7s[%d] |", i + 1, ts, (j < col_type_num) ? "total" : "", (j < col_type_num) ? 0 : j / col_type_num );
 
 			if (val[j].ind > 0) {
 				printf("%5.1f%% |", *(double *)val[j].vp);
@@ -300,7 +284,7 @@ static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc) {
 		}
 		i++;
 	}
-	printf("\n|----|-----------------|-----------|-------|-------|-------|-------|\n\n");
+	printf("\n|----|-----------------|-----------|-------|-------|\n\n");
 
 	if (ret == SD_FETCH_ERR) {
 		printf("error sdts_fetch_cur [%d][%d]\n", i, sd_get_err());
@@ -358,36 +342,36 @@ static int get_current_cpu_time(CPU time[]){
 	fclose(fp);
 	return 0;
 }
-static void calc_cpu_time(CPU prev[], CPU curr[], int reg_curr_time, int register_time, int procnum, CPU_TIME register_cpu[register_time][procnum]) {
-	for (int i = 0; i < procnum; i++) {
-		long total = (curr[i].usr - prev[i].usr) +
-				(curr[i].nice - prev[i].nice) +
-				(curr[i].sys - prev[i].sys) +
-				(curr[i].idle - prev[i].idle);
-		double rateTotal = (curr[i].total - prev[i].total) * 100 / (double) total;
-		double rateAct = (curr[i].act - prev[i].act) * 100 / (double) total;
-		double rateUser = (curr[i].usr - prev[i].usr) * 100 / (double) total;
-		double rateNice = (curr[i].nice - prev[i].nice) * 100 / (double) total;
-		double rateSys = (curr[i].sys - prev[i].sys) * 100 / (double) total;
-		double rateIdle = (curr[i].idle - prev[i].idle) * 100 / (double) total;
+static void calc_cpu_time(CPU prev, CPU curr, int procnum, CPU_TIME *register_cpu) {
+		long total = (curr.usr - prev.usr) +
+				(curr.nice - prev.nice) +
+				(curr.sys - prev.sys) +
+				(curr.idle - prev.idle);
+		double rateTotal = (curr.total - prev.total) * 100 / (double) total;
+		double rateAct = (curr.act - prev.act) * 100 / (double) total;
+		double rateUser = (curr.usr - prev.usr) * 100 / (double) total;
+		double rateNice = (curr.nice - prev.nice) * 100 / (double) total;
+		double rateSys = (curr.sys - prev.sys) * 100 / (double) total;
+		double rateIdle = (curr.idle - prev.idle) * 100 / (double) total;
 		
-		strcpy(register_cpu[reg_curr_time][i].name, curr[i].name);
-		register_cpu[reg_curr_time][i].total = rateTotal;
-		register_cpu[reg_curr_time][i].act = rateAct;
-		register_cpu[reg_curr_time][i].usr = rateUser;
-		register_cpu[reg_curr_time][i].nice = rateNice;
-		register_cpu[reg_curr_time][i].sys = rateSys;
-		register_cpu[reg_curr_time][i].idle = rateIdle;
+		strcpy(register_cpu->name, curr.name);
+		register_cpu->total = rateTotal;
+		register_cpu->act = rateAct;
+		register_cpu->usr = rateUser;
+		register_cpu->nice = rateNice;
+		register_cpu->sys = rateSys;
+		register_cpu->idle = rateIdle;
 		// printf("%s Total:%.1f%% Active:%.1f%% User:%.1f%%  Nice:%.1f%%  Sys:%.1f%%  Idle:%.1f%%\n",
-		// 	register_cpu[reg_curr_time][i].name, rateTotal, rateAct, rateUser, rateNice, rateSys, rateIdle);
-	}
+		// 	register_cpu->name, rateTotal, rateAct, rateUser, rateNice, rateSys, rateIdle);
 }
-static void cpu_start_usage_collecters(const int proc, CPU_TIME register_cpu[REGISTER_TIME][proc]) {
+static void cpu_start_usage_collecters(sdtsdb_t db, CID_PROCESSOR *cids, const int proc) {
 	const int sleepSec = 1;
+	sdntime_t ts = 1000000000;
 	printf("cpu logical processor count: %d\n", proc);
 	printf("Data acquisition time: %d sec\n", REGISTER_TIME);
 	CPU prev_cpu_time[proc];
 	CPU current_cpu_time[proc];
+	CPU_TIME register_cpu_time;
 	for (int i = 0; i <= REGISTER_TIME; i++) {
 		// /proc/statからCPUの時刻を取得する.
 		get_current_cpu_time(current_cpu_time);
@@ -395,15 +379,20 @@ static void cpu_start_usage_collecters(const int proc, CPU_TIME register_cpu[REG
 		if (i > 0) {
 			// 初回の取得はCPUの計算用のため2回目の取得から計測.
 			fprintf(stderr, "register count %d/%d\r", i, REGISTER_TIME);
-			calc_cpu_time(prev_cpu_time, current_cpu_time, i -1, REGISTER_TIME, proc, register_cpu);
+			for (int j = 0; j<proc; j++) {
+				calc_cpu_time(prev_cpu_time[j], current_cpu_time[j], proc, &register_cpu_time);
+				db_insert(db, &cids[j], ts, proc, &register_cpu_time);
+			}
+			// 初回以降、登録時のタイムスタンプが 0 である場合、
+			// または、指定されたサンプリングレートでの間隔で
+			// 初回からの連続したタイムスタンプある場合は 
+			// 連続性があるデータとして認識される。
+			ts = (unsigned long)1000000000 * (i + 1);
 		}
+		memcpy(prev_cpu_time, current_cpu_time, sizeof(current_cpu_time));
 		// Sleep 1 seconds.
 		sleep(sleepSec);
-		
-		for (int j = 0; j<proc; j++) {
-			// printf("cpu usage : %s\n", current_cpu_time[j].name);
-			prev_cpu_time[j] = current_cpu_time[j];
-		}
 	}
 	printf("\n-- success get cpu info  --\n");
+	printf("-- success sdts_insert [%d] sec. input data count [%d]. --\n", REGISTER_TIME, REGISTER_TIME * proc);
 }
