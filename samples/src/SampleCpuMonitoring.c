@@ -225,7 +225,7 @@ static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc, st
 		++j;
 	}
 	printf("all_cids : %ld\n", sizeof all_cids / sizeof all_cids[0]);
-	if ((cur = sdts_open_cur(db, all_cids, ccnt, st, et, iv, SDTS_CUR_OPT_EXTEND)) < 0) {
+	if ((cur = sdts_open_cur(db, all_cids, ccnt, st, et, iv, SDTS_CUR_OPT_AGGR_TS_PREV|SDTS_CUR_OPT_EXTEND)) < 0) {
 		printf("error sdts_open_cur [%d]\n", sd_get_err());
 		exit(EXIT_FAILURE);
 	}
