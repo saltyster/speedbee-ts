@@ -34,15 +34,6 @@ typedef struct tag_cpu {
 	int sys;
 	int idle;
 } CPU;
-typedef struct tag_cpu_time {
-	char name[BUF];
-	double total;
-	double act;
-	double usr;
-	double nice;
-	double sys;
-	double idle;
-} CPU_TIME;
 typedef struct tag_cid_processor {
 	const char *name;
 	sdtsdb_t db;
@@ -56,8 +47,9 @@ static void db_finish(sdtsdb_t db);
 static void db_create_column(sdtsdb_t db, CID_PROCESSOR *cids, const int proc);
 static void db_aggregate_fixed_cycle(sdtsdb_t db, CID_PROCESSOR *cids, const int proc);
 static int callback_func(sdntime_t ts, void *da, int dc, sdstat_t* st, int ret, void *user_data);
-static void db_insert(sdtsdb_t db, CID_PROCESSOR *cid, sdntime_t ts, const int proc, CPU_TIME *register_cpu);
+static void db_insert(sdtsdb_t db, CID_PROCESSOR *cid, sdntime_t ts, const int proc, const double register_cpu);
 static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc, struct timespec curr_ts);
+static void db_print_col_info(sdtsdb_t db, sdtscid_t cid, char *m, bool check);
 // VIEW
 static void view_table_header(const int view_proc_num);
 static void view_table_footer(const int view_proc_num);
@@ -65,7 +57,7 @@ static void view_table_record(const int ccnt, const int proc,  const int i, cons
 // CPU operation
 static int get_count_logical_processor(void);
 static int get_current_cpu_time(CPU time[]);
-static void calc_cpu_time(CPU prev, CPU curr, int procnum, CPU_TIME *register_cpu);
+static double calc_cpu_time(const CPU prev, const CPU curr);
 static void cpu_start_usage_collecters(sdtsdb_t db, CID_PROCESSOR *cids, const int proc, struct timespec curr_ts);
 
 int main(int ac, char *av[]) {
@@ -198,13 +190,11 @@ static int callback_func(sdntime_t ts, void *da, int dc, sdstat_t* st, int ret, 
 
 	return 0;
 }
-static void db_insert(sdtsdb_t db, CID_PROCESSOR *cid, sdntime_t ts, const int proc, CPU_TIME *register_cpu) {
+static void db_insert(sdtsdb_t db, CID_PROCESSOR *cid, sdntime_t ts, const int proc, const double register_cpu) {
 	// CPU使用率をDBに登録.
 	// タイムスタンプ設定 
 	// 0を指定した場合システム時間が初期タイムスタンプとなる。
-	// 登録
-	// printf("INSERT Check [%s]: %.1f%%\n", register_cpu->name, register_cpu->act);
-	if (sdts_insert(db, cid->act, ts, (char *) &register_cpu->act, 1) != 1) {
+	if (sdts_insert(db, cid->act, ts, (char *) &register_cpu, 1) != 1) {
 		printf("error sdts_insert [%d]\n", sd_get_err());
 		(void)sdts_close_db(db);
 		sd_end();
@@ -224,10 +214,9 @@ static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc, st
 	sdtscid_t all_cids[proc * col_type_num];
 	sdtscurval_t val[proc * col_type_num];
 
-	sdts_get_col_info(db, cids[0].act);
-	
-
 	for (i = 0; i < proc; i++) {
+		db_print_col_info(db, cids[i].act, "check act", false);// bool = true/false. true:colum info print.
+		db_print_col_info(db, cids[i].max, "check max", false);
 		all_cids[j] = cids[i].act;
 		all_cids[++j] = cids[i].max;
 		// printf("all_cids act:%d, max:%d\n", all_cids[j-1], all_cids[j]);
@@ -266,6 +255,33 @@ static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc, st
 		exit(EXIT_FAILURE);
 	}
 	printf("-- success sdts_close_cur --\n");
+}
+static void db_print_col_info(sdtsdb_t db, sdtscid_t cid, char *m, bool check) {
+	if(!check) return;
+
+	sdtscolinfo_t *ip;
+
+	if ((ip = sdts_get_col_info(db, cid)) == NULL) {
+		printf("error sdts_get_col_info [%d]\n", sd_get_err());
+		exit(EXIT_FAILURE);
+	}
+	printf("-- success sdts_get_col_info [%d] --\n", cid);
+
+	printf(" *** %s : column info [%s] ***\n", m, (char *)ip->cname);
+	printf("ctype : %d\n", ip->ctype);
+	printf("dsz   : %d\n", ip->dsz);
+	printf("rsz   : %d\n", ip->rsz);
+	printf("scnt  : %d\n", ip->scnt);
+	printf("icnt  : %lld\n", ip->icnt);
+
+	printf("hmsmpl : %g\n", ip->hmsmpl);
+	printf("hmst   : %lld\n", ip->hmst);
+
+	printf("msst  : %lld\n", ip->msst);
+	printf("mset  : %lld\n", ip->mset);
+	printf("mscnt : %lld\n", ip->mscnt);
+
+	sdts_free_col_info(ip);
 }
 // VIEW
 static void view_table_header(const int view_proc_num){
@@ -345,25 +361,14 @@ static int get_current_cpu_time(CPU time[]){
 	fclose(fp);
 	return 0;
 }
-static void calc_cpu_time(CPU prev, CPU curr, int procnum, CPU_TIME *register_cpu) {
+static double calc_cpu_time(const CPU prev, const CPU curr) {
 		long total = (curr.usr - prev.usr) +
 				(curr.nice - prev.nice) +
 				(curr.sys - prev.sys) +
 				(curr.idle - prev.idle);
 		double rateAct = (curr.act - prev.act) * 100 / (double) total;
-		double rateUser = (curr.usr - prev.usr) * 100 / (double) total;
-		double rateNice = (curr.nice - prev.nice) * 100 / (double) total;
-		double rateSys = (curr.sys - prev.sys) * 100 / (double) total;
-		double rateIdle = (curr.idle - prev.idle) * 100 / (double) total;
-		
-		strcpy(register_cpu->name, curr.name);
-		register_cpu->act = rateAct;
-		register_cpu->usr = rateUser;
-		register_cpu->nice = rateNice;
-		register_cpu->sys = rateSys;
-		register_cpu->idle = rateIdle;
-		// printf("%s Active:%.1f%% User:%.1f%%  Nice:%.1f%%  Sys:%.1f%%  Idle:%.1f%%\n",
-		// 	register_cpu->name, rateAct, rateUser, rateNice, rateSys, rateIdle);
+		// printf("Active:%.1f%%\n", rateAct);
+		return (double)rateAct;
 }
 static void cpu_start_usage_collecters(sdtsdb_t db, CID_PROCESSOR *cids, const int proc, struct timespec curr_ts) {
 	const int sleepSec = 1;
@@ -372,7 +377,7 @@ static void cpu_start_usage_collecters(sdtsdb_t db, CID_PROCESSOR *cids, const i
 	printf("Data acquisition time: %d sec\n", REGISTER_TIME);
 	CPU prev_cpu_time[proc];
 	CPU current_cpu_time[proc];
-	CPU_TIME register_cpu_time;
+	double register_cpu;
 	int i, j;
 	int insert_count = 0, input_record = 0;
 	for (i = 0; i <= REGISTER_TIME; i++) {
@@ -383,8 +388,8 @@ static void cpu_start_usage_collecters(sdtsdb_t db, CID_PROCESSOR *cids, const i
 			// 初回の取得はCPUの計算用のため2回目の取得から計測.
 			fprintf(stderr, "register count %d/%d\r", i, REGISTER_TIME);
 			for (j = 0; j<proc; j++) {
-				calc_cpu_time(prev_cpu_time[j], current_cpu_time[j], proc, &register_cpu_time);
-				db_insert(db, &cids[j], ts, proc, &register_cpu_time);
+				register_cpu = calc_cpu_time(prev_cpu_time[j], current_cpu_time[j]);
+				db_insert(db, &cids[j], ts, proc, register_cpu);
 				insert_count++;
 			}
 			input_record++;
@@ -399,5 +404,5 @@ static void cpu_start_usage_collecters(sdtsdb_t db, CID_PROCESSOR *cids, const i
 		sleep(sleepSec);
 	}
 	printf("\n-- success get cpu info  --\n");
-	printf("-- success sdts_insert [%d] sec. input record count [%d]. input data count [%d]. --\n", REGISTER_TIME, input_record, insert_count);
+	printf("-- success sdts_insert [%d] sec. Data count for one column [%d]. input total data count [%d]. --\n", REGISTER_TIME, input_record, insert_count);
 }
