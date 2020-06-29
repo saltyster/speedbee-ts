@@ -54,6 +54,7 @@ static void db_print_col_info(sdtsdb_t db, sdtscid_t cid, char *m, bool check);
 static void view_table_header(const int view_proc_num);
 static void view_table_footer(const int view_proc_num);
 static void view_table_record(const int ccnt, const int proc,  const int i, const sdntime_t ts, const int col_type_num, const int view_proc_num, sdtscurval_t *val);
+static void ts2str(uint64_t ts, char *buff, size_t size);
 // CPU operation
 static int get_count_logical_processor(void);
 static int get_current_cpu_time(CPU time[]);
@@ -64,7 +65,7 @@ int main(int ac, char *av[]) {
 	struct timespec current_ts;
 	timespec_get(&current_ts, TIME_UTC);
     char date[64];
-	strftime(date, sizeof(date), "%Y/%m/%d %a %H:%M:%S", localtime(&current_ts.tv_sec));
+	strftime(date, sizeof(date), "%Y-%m-%d %a %H:%M:%S", localtime(&current_ts.tv_sec));
 	// printf("%ld.%09ld\n", current_ts.tv_sec, current_ts.tv_nsec);
 	printf("START : %s.%09ld\n", date, current_ts.tv_nsec);
 	sdtsdb_t db = db_init();
@@ -82,7 +83,7 @@ int main(int ac, char *av[]) {
 	db_finish(db);
 
 	timespec_get(&current_ts, TIME_UTC);
-	strftime(date, sizeof(date), "%Y/%m/%d %a %H:%M:%S", localtime(&current_ts.tv_sec));
+	strftime(date, sizeof(date), "%Y-%m-%d %a %H:%M:%S", localtime(&current_ts.tv_sec));
 	printf("END : %s.%09ld\n", date, current_ts.tv_nsec);
 
 	return 0;
@@ -224,7 +225,7 @@ static void db_get_cpu_time(sdtsdb_t db, CID_PROCESSOR *cids, const int proc, st
 		++j;
 	}
 	printf("all_cids : %ld\n", sizeof all_cids / sizeof all_cids[0]);
-	if ((cur = sdts_open_cur(db, all_cids, ccnt, st, et, iv, 0)) < 0) {
+	if ((cur = sdts_open_cur(db, all_cids, ccnt, st, et, iv, SDTS_CUR_OPT_EXTEND)) < 0) {
 		printf("error sdts_open_cur [%d]\n", sd_get_err());
 		exit(EXIT_FAILURE);
 	}
@@ -286,19 +287,19 @@ static void db_print_col_info(sdtsdb_t db, sdtscid_t cid, char *m, bool check) {
 // VIEW
 static void view_table_header(const int view_proc_num){
 	int i;
-	printf("\n|----|-------------------------|");
+	printf("\n|----|----------------------------|");
 	for (i=0; i < view_proc_num; i++) printf("---------------|");
-	printf("\n| No | ts                      |");
+	printf("\n| No | ts                         |");
 	for (i=0; i < view_proc_num; i++) i == 0 ? printf(" Total         |") : printf(" processor(%d)  |", i);
-	printf("\n|    |                         |");
+	printf("\n|    |                            |");
 	for (i=0; i < view_proc_num; i++) printf("---------------|");
-	printf("\n|    |                         |");
+	printf("\n|    |                            |");
 	for (i=0; i < view_proc_num; i++) printf("   acr |   max |");
-	printf("\n|----|-------------------------|");
+	printf("\n|----|----------------------------|");
 	for (i=0; i < view_proc_num; i++) printf("---------------|");
 }
 static void view_table_footer(const int view_proc_num){
-	printf("\n|----|-------------------------|");
+	printf("\n|----|----------------------------|");
 	for (int i=0; i < view_proc_num; i++) printf("---------------|");
 	printf("\n\n");
 }
@@ -306,8 +307,12 @@ static void view_table_record(const int ccnt, const int proc,  const int i, cons
 	for (int j = 0; j < ccnt; j++) {
 		if ((j / col_type_num) >= view_proc_num) continue; // 表示しないプロセッサはスキップ
 
-		if (j == 0)  // 表の「No」と「ts」
-			printf("\n|%04d| ts[%11lld] |", i + 1, ts);
+		if (j == 0) {
+			// 表の「No」と「ts」
+			char buff[64];
+			ts2str(ts, buff, sizeof(buff));
+			printf("\n|%04d|ts[%11s]|", i + 1, buff);
+		} 
 
 		// プロッサの「acr」と「max」
 		if (val[j].ind > 0) {
@@ -316,6 +321,21 @@ static void view_table_record(const int ccnt, const int proc,  const int i, cons
 			printf("       |");
 		}
 	}
+}
+static void ts2str(uint64_t ts, char *buff, size_t size){
+	struct tm *cal;
+
+	time_t t = ts / (1000*1000*1000);
+	cal = localtime(&t);
+
+	snprintf(buff, size, "%02d-%02d-%02dT%02d:%02d:%02d.%06ld",
+		(cal->tm_year+1900) % 100,
+		cal->tm_mon+1,
+		cal->tm_mday,
+		cal->tm_hour,
+		cal->tm_min,
+		cal->tm_sec,
+		(ts/1000) % 1000000);
 }
 // CPU operation
 static int get_count_logical_processor(){
