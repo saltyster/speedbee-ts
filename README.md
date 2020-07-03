@@ -2,9 +2,6 @@
 
 > 時系列DBのSpeeDBeeは、登録データのリアルタイム分析を用いてウィンドウ単位でのデータ分析およびイベント通知を行えます。
 
-> Keywords : 組込みDB, 時系列DB, リアルタイム分析, Time Series DBMS
-<!-- 時系列DB, 時系列データベース, 組込みDB, 組込みデータベース, リアルタイム分析, SpeeDBee, Saltyster, IoT分析, Database local storage,  -->
-
 SpeeDBeeにおける時系列DBは、インメモリDB機能を利用して高速にデータを時間に紐づけて登録します。<br>
 DBはデータ登録可能なカラム（列）を複数保持し、カラムへのデータ登録は各カラム単位で、時間、値（もしくは値の配列）を設定し行います。<br>
 登録されたデータは集約検索を利用して、同一タイムスタンプ上に集約して取得する事が可能です。
@@ -55,7 +52,7 @@ $ make
 $ ./samples/src/sample1
 ```
 
-次に、SpeeDBeeをDBとして利用するための基本的な操作やデータを取得したり、分析を行う小さなデモに使用したりする例を示します。
+次に、SpeeDBeeを使って、基本的なDB操作やデータ取得、ストレージへの保存、リアルタイム分析を行う例を示します。
 
 ## [Running the Samples](#Running-the-Samples)
 
@@ -97,7 +94,7 @@ SpeeDBeeを環境で利用するためには、下記の手順でインストー
 
 1. 評価版[リリースファイル](https://github.com/saltyster/speedbee-ts/releases)をダウンロード
    ```bash
-   $ curl https://github.com/saltyster/speedbee-ts/releases/download/v61.0/speedbee-ts-trial-v61.0-linux-x86_64.tar.gz
+   $ curl https://github.com/saltyster/speedbee-ts/releases/download/v621/speedbee-ts-trial-v621-linux-x86_64.tar.gz
    ```
 2. 評価版リリースファイルをインストール
    ```bash
