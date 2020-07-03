@@ -22,7 +22,7 @@ DBはデータ登録可能なカラム（列）を複数保持し、カラムへ
 - [License](#license)
 - [Contacts](#Contacts)
 
-### [Getting Started](#Getting-Started)
+## [Getting Started](#Getting-Started)
 
 この手順により、SpeeDBeeを体感することができます。
 
