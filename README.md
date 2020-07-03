@@ -13,7 +13,7 @@ DBはデータ登録可能なカラム（列）を複数保持し、カラムへ
 
 ---
 
-## Table of Contents (Optional)
+## Table of Contents
 
 - [Getting Started](#Getting-Started)
 - [Running the Samples](#Running-the-Samples)
@@ -29,6 +29,7 @@ DBはデータ登録可能なカラム（列）を複数保持し、カラムへ
 ### 動作環境
 
 * Ubuntu 18.04/20.04
+* Raspberry PI3/rasbian
 
 ※製品版ではWindowsやT-Kernel, Non-OSにも対応します。
 
