@@ -112,7 +112,7 @@ SamplesプログラムのラインセンスはMITになります。
 
 * **株式会社ソルティスター** - [SALTYSTER](http://www.saltyster.com/)
 
-SpeeDBeeについてのお問い合わせは、以下のメールアドレス、またはIssueにてお問い合わせください。
+SpeeDBeeについてのお問い合わせは、以下のメールアドレス、またはIssueにてお問い合わせください。<br>
 SpeeDBeeに関するお問い合わせメールアドレス : speedbee@saltyster.com
 
 
