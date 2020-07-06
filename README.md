@@ -47,7 +47,7 @@ sudo apt install gcc make
 
 1. 評価版[リリースファイル](https://github.com/saltyster/speedbee-ts/releases)をダウンロード
    ```bash
-   $ curl https://github.com/saltyster/speedbee-ts/releases/download/v621/speedbee-ts-trial-v621-linux-x86_64.tar.gz
+   $ wget https://github.com/saltyster/speedbee-ts/releases/download/v621/speedbee-ts-trial-v621-linux-x86_64.tar.gz
    ```
 2. 評価版リリースファイルをインストール
    ```bash
