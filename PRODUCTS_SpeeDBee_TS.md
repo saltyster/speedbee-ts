@@ -186,9 +186,9 @@ IoTにおけるゲートウェイなどのエッジ側機器でのエッジコ�
 SpeeDBee/TSを利用したサンプルを用意しています。
 Linux環境において、「/proc/stat」を参照して1秒ごとのCPU使用率を求めてSpeeDBeeに格納しています。
 10秒ごとに、各論理プロセッサの最大使用率、最小使用率、平均使用率を算出しています。
-詳細については、[CPU使用率を表示するサンプル](https://github.com/saltyster/testrepo/blob/master/samples/src/SampleCpuMonitoring.c)をご確認ください。
+詳細については、[CPU使用率を表示するサンプル](samples/src/SampleCpuMonitoring.c)をご確認ください。
 
 ## 補足
 
-### [最先端の製品強化計画（開発中）]()
+### [最先端の製品強化計画（開発中）](https://www.saltyster.com/)
 
