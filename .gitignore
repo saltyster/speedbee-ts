@@ -50,3 +50,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# target files
+samples/src/sample[0-9]
+samples/src/sample1[0-9]
+samples/src/SampleCpuMonitoring
