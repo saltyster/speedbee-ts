@@ -75,6 +75,7 @@ SpeeDBeeの機能を紹介するサンプル。
 - 集約カーソル検索
 - シリアライズカーソル検索
 - 通知処理
+- Window分析
 
 ### Sample List
 
@@ -95,6 +96,7 @@ SpeeDBeeの機能を紹介するサンプル。
 |13|Referencing persistent data (HI)|`./samples/src/sample13`|永続化データの参照（HI）|sample13.c|
 |14|Referencing persistent data (LO FIX)|`./samples/src/sample14`|永続化データの参照（LO FIX）|sample14.c|
 |15|Referencing persistent data (LO VAR)|`./samples/src/sample15`|永続化データの参照（LO VAR）|sample15.c|
+|16|Window analysis|`./samples/src/SampleCpuMonitoring`|CPU負荷情報の収集＆Window分析|SampleCpuMonitoring.c|
 
 
 ## [Documentation](#documentation)
