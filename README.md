@@ -113,7 +113,7 @@ SpeeDBeeの機能を紹介するサンプル。
 
 ## [Documentation](#documentation)
 
-ドキュメントは,、[SDTS-API リファレンス](#doc/SDTS_API_20200707.pdf)を参照ください。
+ドキュメントは,、[SDTS-API リファレンス](doc/SDTS_API_20200707.pdf)を参照ください。
 
 
 ## [License](#License)
