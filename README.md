@@ -16,6 +16,7 @@ DBはデータ登録可能なカラム（列）を複数保持し、カラムへ
 ## Table of Contents
 
 - [Getting Started](#Getting-Started)
+- [Limitations](#Limitations)
 - [Running the Samples](#Running-the-Samples)
 - [Documentation](#documentation)
 - [License](#license)
@@ -46,6 +47,7 @@ sudo apt install gcc make
 ### SpeeDBeeライブラリのインストール
 
 1. 評価版[リリースファイル](https://github.com/saltyster/speedbee-ts/releases)をダウンロード
+※評価版リリースファイルには、評価版用の機能制限が含まれています。
    ```bash
    $ wget https://github.com/saltyster/speedbee-ts/releases/download/v621/speedbee-ts-trial-v621-linux-x86_64.tar.gz
    ```
@@ -66,6 +68,16 @@ $ ./samples/src/sample1
 ```
 
 次に、SpeeDBeeを使って、基本的なDB操作やデータ取得、ストレージへの保存、リアルタイム分析を行う例を示します。
+
+## Limitations
+
+評価版[リリースファイル](https://github.com/saltyster/speedbee-ts/releases)には、評価版用として以下の機能制限が含まれています。
+
+| 制限事項 | 制限内容 |
+| :---: | :---: |
+| カラム数 | 20個 |
+| 連続稼働時間 | 8時間 |
+
 
 ## [Running the Samples](#Running-the-Samples)
 
