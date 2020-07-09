@@ -69,7 +69,7 @@ $ ./samples/src/sample1
 
 次に、SpeeDBeeを使って、基本的なDB操作やデータ取得、ストレージへの保存、リアルタイム分析を行う例を示します。
 
-## Limitations
+## [Limitations](#Limitations)
 
 評価版[リリースファイル](https://github.com/saltyster/speedbee-ts/releases)には、評価版用として以下の機能制限が含まれています。
 
