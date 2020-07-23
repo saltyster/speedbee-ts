@@ -113,19 +113,21 @@ SpeeDBeeの機能を紹介するサンプル。
 
 ## [Documentation](#documentation)
 
-ドキュメントは,、[SDTS-API リファレンス](#doc/SDTS_API_20200707.pdf)を参照ください。
+詳細は以下の資料をご参照ください。
 
+* [SpeeDBee/TS 製品紹介](./PRODUCTS_SpeeDBee_TS.md)
+* [SpeeDBee/TS APIリファレンス](./doc/SDTS_API_20200707.pdf)
 
 ## [License](#License)
 
 SamplesプログラムのラインセンスはMITになります。
-※ライブラリご利用の詳細については、お問い合わせください。
+※製品版ライブラリご利用の詳細については、お問い合わせください。
 
 ## [Contacts](#Contacts)
 
 * **株式会社ソルティスター** - [SALTYSTER](http://www.saltyster.com/)
 
-SpeeDBeeについてのお問い合わせは、以下のメールアドレス、またはIssueにてお問い合わせください。<br>
+SpeeDBeeについてのお問い合わせには下記のメールアドレス、もしくは、GithubのIssueをご利用ください。<br>
 SpeeDBeeに関するお問い合わせメールアドレス : speedbee@saltyster.com
 
 
