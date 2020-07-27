@@ -251,4 +251,4 @@ API 実行時に次の実行で取得するデータ位置に関する内部情�
 
 途中でサンプリングレートが変更された場合、戻り値としてSPCF_END_RATEを返します。<br>
 
-[Previons]({% link docs/tutorials/data-get/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({% link docs/tutorials/data-get/get_data_on_memory.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
+[Previons]({{ site.baseurl }}{% link docs/tutorials/data-get/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({{ site.baseurl }}{% link docs/tutorials/data-get/get_data_on_memory.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>

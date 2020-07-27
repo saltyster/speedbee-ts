@@ -8,7 +8,7 @@ last_modified_date: 2020-07-13T12:00:00+0000
 # Minimal Start
 
 SpeeDBee/TSのインストールが完了したら、DBを利用する方法についてサンプルを用いながら解説します。
-インストールがまだの場合は、[こちら]({% link docs/installing-speedbee-ts.md %})を参照ください。
+インストールがまだの場合は、[こちら]({{ site.baseurl }}{% link docs/installing-speedbee-ts.md %})を参照ください。
 
 ## 前提条件
 
@@ -99,4 +99,4 @@ SDTS-API のインターフェース終了処理を行います。
     -- success sdts_close_db --
     -- success sd_end --
     ```
-[Previons]({% link docs/installing-speedbee-ts.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({% link docs/tutorials/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
+[Previons]({{ site.baseurl }}{% link docs/installing-speedbee-ts.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({{ site.baseurl }}{% link docs/tutorials/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>

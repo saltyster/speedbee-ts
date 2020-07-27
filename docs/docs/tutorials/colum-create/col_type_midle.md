@@ -148,4 +148,4 @@ if ((cids[1] = sdts_create_col(db, (sdid_t)COL2_NAME,
 カラムデータの取得などに利用します。<br>
 
 
-[Previons]({% link docs/tutorials/colum-create/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({% link docs/tutorials/data-register/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
+[Previons]({{ site.baseurl }}{% link docs/tutorials/colum-create/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({{ site.baseurl }}{% link docs/tutorials/data-register/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>

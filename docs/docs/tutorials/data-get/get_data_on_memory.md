@@ -10,7 +10,7 @@ last_modified_date: 2020-07-13T12:00:00+0000
 # メモリ上のカラムデータ取得
 
 このチュートリアルでは、メモリ DB に格納されたMiddleタイプのカラムデータを取得する方法について紹介します。<br>
-メモリDBに格納されたデータ取得方法として、[spcf_get_col_dat]({% link docs/tutorials/data-get/get_data_on_file.md %})もあります。
+メモリDBに格納されたデータ取得方法として、[spcf_get_col_dat]({{ site.baseurl }}{% link docs/tutorials/data-get/get_data_on_file.md %})もあります。
 
 ## カラムデータ取得のサンプルコード
 
@@ -183,4 +183,4 @@ for (i = 0; i < cnt; i++, p += 12)
 
 	| ts1 | 値1 | ts2 | 値2 | ……  | tsN  | 値N |
 
-[Previons]({% link docs/tutorials/data-get/get_data_on_file.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({% link docs/tutorials/cursor-search/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
+[Previons]({{ site.baseurl }}{% link docs/tutorials/data-get/get_data_on_file.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({{ site.baseurl }}{% link docs/tutorials/cursor-search/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>

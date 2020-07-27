@@ -236,4 +236,4 @@ static int cursor_aggr(sdtsdb_t db, sdtscid_t *cids,
 }
 ```
 
-[Previons]({% link docs/tutorials/cursor-search/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({% link docs/tutorials/real_time_process.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
+[Previons]({{ site.baseurl }}{% link docs/tutorials/cursor-search/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({{ site.baseurl }}{% link docs/tutorials/real_time_process.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
