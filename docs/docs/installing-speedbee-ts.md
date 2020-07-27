@@ -13,7 +13,7 @@ last_modified_date: 2020-07-13T12:00:00+0000
 * Raspberry PI3/rasbian
 
 ※製品版ではWindowsやT-Kernel, Non-OSにも対応します。<br>
-製品版の動作環境はスペック表をご確認ください。[スペック](https://github.com/NagamineHikaru/speedbee-ts/blob/main/PRODUCTS_SpeeDBee_TS.md#%E3%82%B9%E3%83%9A%E3%83%83%E3%82%AF)
+製品版の動作環境はスペック表をご確認ください。[スペック](https://github.com/saltyster/speedbee-ts/blob/master/doc/SDTS_API_20200707.pdf)
 
 ## 前提条件
 

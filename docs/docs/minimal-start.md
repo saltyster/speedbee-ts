@@ -21,7 +21,7 @@ SpeeDBee/TSのインストールが完了したら、DBを利用する方法に�
 ## SpeeDBeeを利用するプログラムを作成します。
 
 1. `sample.c`を作成します。<br>
-下記ソースは、speedbee-ts評価版のリポジトリにあるサンプルプログラムになります。[sample1.c](https://github.com/NagamineHikaru/speedbee-ts/blob/main/samples/src/sample1.c)
+下記ソースは、speedbee-ts評価版のリポジトリにあるサンプルプログラムになります。[sample1.c](https://github.com/saltyster/speedbee-ts/blob/main/samples/src/sample1.c)
 
     ```c
     #include <stdio.h>

@@ -15,8 +15,8 @@
 # in the templates via {{ site.myvariable }}.
 title: SpeeDBee-TS
 description: SpeeDBee-TS tutorial document.
-baseurl: "/hikaru-nagamine" #"/speedbee-ts" # the subpath of your site, e.g. /blog
-url: "https://nagaminehikaru.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/speedbee-ts" # the subpath of your site, e.g. /blog
+url: "https://saltyster.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 permalink: pretty
 exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"]
@@ -57,7 +57,7 @@ heading_anchors: true
 # Aux links for the upper right navigation
 aux_links:
   "SpeeDBee-TS on GitHub":
-    - "//github.com/NagamineHikaru/hikaru-nagamine"
+    - "//github.com/saltyster/speedbee-ts"
 
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: false

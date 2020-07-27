@@ -1,16 +1,16 @@
 # coding: utf-8
 
 Gem::Specification.new do |spec|
-  spec.name          = "hikaru-nagamine"
+  spec.name          = "saltyster"
   spec.version       = "0.3.0"
-  spec.authors       = ["Hikaru Nagamine"]
+  spec.authors       = ["saltyster"]
   spec.email         = ["nagamine@saltyster.com"]
 
   spec.summary       = %q{A modern, highly customizable, and responsive Jekyll theme for documention with built-in search.}
-  spec.homepage      = "https://github.com/NagamineHikaru/hikaru-nagamine/"
+  spec.homepage      = "https://github.com/saltyster/speedbee-ts/"
 
   spec.files         = `git ls-files -z`.split("\x0").select { |f| f.match(%r{^(assets|bin|_layouts|_includes|lib|Rakefile|_sass|LICENSE|README)}i) }
-  spec.executables   << 'hikaru-nagamine'
+  spec.executables   << 'saltyster'
 
   spec.add_development_dependency "bundler", "~> 2.1.4"
   spec.add_runtime_dependency "jekyll", ">= 3.8.5"
