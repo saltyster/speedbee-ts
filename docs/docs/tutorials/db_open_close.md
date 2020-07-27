@@ -17,7 +17,7 @@ APIの詳細については、[APIドキュメント](https://github.com/saltyst
 このチュートリアルで紹介するサンプルコードです。<br>
 サンプルコードのファイルは、[こちら](https://github.com/saltyster/speedbee-ts/blob/main/samples/src/sample1.c)にあります。<br>
 <br>
-[Minimal Start]({% link docs/minimal-start.md %})でも紹介していますが、SpeeDBeeを利用するためには、初期化、DBオープン、DBクローズ、終了処理が必要です。<br>
+[Minimal Start]({{ site.baseurl }}{% link docs/minimal-start.md %})でも紹介していますが、SpeeDBeeを利用するためには、初期化、DBオープン、DBクローズ、終了処理が必要です。<br>
 
 ```c
 #include <stdio.h>
@@ -104,4 +104,4 @@ if ((db = sdts_open_db("DB_PATH=" DBDIR)) == NULL) {
 DBクローズ時には、他プロセス及びタスクがDBにアクセスしていないことを確認してからクローズ処理を実行してください。
 
 
-[Previons]({% link docs/tutorials/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({% link docs/tutorials/colum-create/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
+[Previons]({{ site.baseurl }}{% link docs/tutorials/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({{ site.baseurl }}{% link docs/tutorials/colum-create/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>

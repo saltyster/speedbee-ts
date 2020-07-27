@@ -14,7 +14,7 @@ last_modified_date: 2020-07-13T12:00:00+0000
 
 このチュートリアルで紹介するサンプルコードです。<br>
 サンプルコードのファイルは、[こちら](https://github.com/saltyster/speedbee-ts/blob/main/samples/src/sample11.c)にあります。<br>
-永続化したDBについて、再度DBを参照する場合や、ファイル上のデータを参照したい場合は、[こちら]({% link docs/tutorials/data-get/get_data_on_file.md %})を参照ください。<br>
+永続化したDBについて、再度DBを参照する場合や、ファイル上のデータを参照したい場合は、[こちら]({{ site.baseurl }}{% link docs/tutorials/data-get/get_data_on_file.md %})を参照ください。<br>
 
 
 ```c

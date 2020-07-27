@@ -196,4 +196,4 @@ static int print_col_info(sdtsdb_t db, sdtscid_t cid, char *m) {
 sdts_free_col_info(ip);
 ```
 
-[Previons]({% link docs/tutorials/colum-info/get_db_info.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({% link docs/tutorials/data_persistence.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
+[Previons]({{ site.baseurl }}{% link docs/tutorials/colum-info/get_db_info.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({{ site.baseurl }}{% link docs/tutorials/data_persistence.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>

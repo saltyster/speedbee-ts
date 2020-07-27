@@ -210,7 +210,7 @@ if (sdts_set_smpl_rate(db, (sdid_t)COL_NAME, 40000) < 0) {
 ## データ取得例（sdts_get_col_dat）
 
 メモリDBのカラムデータの取得は、下記のコード部分によって行っています。<br>
-永続化DBやメモリDBのデータ取得については、[データ取得]({% link docs/tutorials/data-get/index.md %})を参照ください。<br>
+永続化DBやメモリDBのデータ取得については、[データ取得]({{ site.baseurl }}{% link docs/tutorials/data-get/index.md %})を参照ください。<br>
 
 ```c
 //  カラムデータ取得
@@ -232,4 +232,4 @@ for (i = 0; i < cnt; i++, p += 12)
     printf("[%03d]t[%lld]d[%d]\n", i + 1, *(sdntime_t *)p, *(int *)(p + 8));
 ```
 
-[Previons]({% link docs/tutorials/data-register/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({% link docs/tutorials/data-get/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
+[Previons]({{ site.baseurl }}{% link docs/tutorials/data-register/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-left }[Next]({{ site.baseurl }}{% link docs/tutorials/data-get/index.md %}){: .btn .btn-outline .fs-5 .mb-4 .mb-md-0 .mr-2 .float-right }<br>
